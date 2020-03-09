@@ -3,19 +3,33 @@ import axios from 'axios';
 
 class PersonInput extends React.Component {
     state = {
-        name: '',
+        negara: '',
+        kota: ''
     };
 
-    handleChange = event => {
-        this.setState({ name: event.target.value });
+    handleNegaraChange = (event) => {
+        this.setState({
+            negara: event.target.value
+        })
+    }
+
+    handleKotaChange = (event) => {
+        this.setState({
+            kota: event.target.value
+        })
     }
 
     handleSubmit = event => {
         event.preventDefault();
 
         const user = {
-            name: this.state.name
+            negara: this.state.negara,
+            kota: this.state.kota
         };
+
+        /*const kota = {
+            kota: this.state.kota
+        };*/
 
         axios.post('http://localhost:9000/posts', { user })
             .then(res => {
@@ -26,15 +40,17 @@ class PersonInput extends React.Component {
 
     render() {
         return (
-            <div>
-                <form onSubmit={this.handleSubmit}>
-                    <label>
-                        Person Name:
-                        <input type='text' name='name' onChange={this.handleChange} />
-                    </label>
-                    <button type='submit'>Add</button>
-                </form>
-            </div>
+            <form>
+                <div onSubmit={this.handleSubmit}>
+                    <label>Negara</label>
+                    <input type='text' value={this.state.negara} onChange={this.handleNegaraChange}/>
+                </div>
+                <div>
+                    <label>Kota</label>
+                    <input type='text' value={this.state.kota} onChange={this.handleKotaChange}/>
+                </div>
+                <button type='submit'>submit</button>
+            </form>
         )
     }
 }

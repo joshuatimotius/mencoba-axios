@@ -1,5 +1,8 @@
 import React from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as action from '../redux/action';
 
 class PersonInput extends React.Component {
     state = {
@@ -7,52 +10,73 @@ class PersonInput extends React.Component {
         kota: ''
     };
 
-    handleNegaraChange = (event) => {
+    handleNegaraChange = (value) => {
         this.setState({
-            negara: event.target.value
+            negara:value
         })
     }
 
-    handleKotaChange = (event) => {
+    handleKotaChange = (value) => {
         this.setState({
-            kota: event.target.value
+            kota: value
         })
     }
 
     handleSubmit = event => {
         event.preventDefault();
+        event.stopPropagation();
 
         const user = {
             negara: this.state.negara,
             kota: this.state.kota
-        };
+        }
 
-        /*const kota = {
-            kota: this.state.kota
-        };*/
-
-        axios.post('http://localhost:9000/posts', { user })
+        axios.post('http://localhost:9000/posts', user)
             .then(res => {
                 console.log(res);
                 console.log(res.data);
+
+                this.props.action.pushItem(res.data);
             })
     }
 
     render() {
         return (
-            <form>
-                <div onSubmit={this.handleSubmit}>
+            <form onSubmit={this.handleSubmit}>
+                <div>
                     <label>Negara</label>
-                    <input type='text' value={this.state.negara} onChange={this.handleNegaraChange}/>
+                    <input
+                        type='text'
+                        onChange={(e) => this.handleNegaraChange(e.target.value)}
+                        value={this.props.negara}
+                    />
                 </div>
                 <div>
                     <label>Kota</label>
-                    <input type='text' value={this.state.kota} onChange={this.handleKotaChange}/>
+                    <input
+                        type='text'
+                        onChange={(e) => this.handleKotaChange(e.target.value)}
+                        value={this.props.kota}
+                    />
                 </div>
+
                 <button type='submit'>submit</button>
             </form>
         )
     }
 }
 
-export default PersonInput;
+const mapStateToProps = (state) => {
+    return {
+        data: state.data
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        action : bindActionCreators(action, dispatch)
+    }
+}
+
+// connect(<global state>,)
+export default connect(mapStateToProps, mapDispatchToProps)(PersonInput);

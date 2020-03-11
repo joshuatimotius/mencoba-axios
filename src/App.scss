@@ -1,0 +1,7 @@
+@import '~react-md/src/scss/react-md';
+@include react-md-everything;
+
+.form{
+    align-items: center;
+    text-align: center;
+}

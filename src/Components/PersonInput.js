@@ -1,8 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as action from '../redux/action';
+import LoaderHOC from '../HOC/LoaderHOC';
 
 class PersonInput extends React.Component {
     state = {
@@ -12,7 +10,7 @@ class PersonInput extends React.Component {
 
     handleNegaraChange = (value) => {
         this.setState({
-            negara:value
+            negara: value
         })
     }
 
@@ -41,6 +39,7 @@ class PersonInput extends React.Component {
     }
 
     render() {
+
         return (
             <form onSubmit={this.handleSubmit}>
                 <div>
@@ -66,17 +65,5 @@ class PersonInput extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        data: state.data
-    }
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        action : bindActionCreators(action, dispatch)
-    }
-}
-
 // connect(<global state>,)
-export default connect(mapStateToProps, mapDispatchToProps)(PersonInput);
+export default LoaderHOC(PersonInput);

@@ -1,9 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { DataTable, TableHeader, TableRow, TableColumn, TableBody } from 'react-md';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as action from '../redux/action';
+import LoaderHOC from '../HOC/LoaderHOC';
 
 class PersonList extends React.Component {
     state = {
@@ -21,36 +19,6 @@ class PersonList extends React.Component {
     };
 
     render() {
-        const { persons } = this.state;
-
-        const ListNegara = persons.length ? (
-            this.props.data.map(person => {
-                return (
-                    <div className="post card" key={person._id}>
-                        <div className="card-content">
-                            <span className="card-title">{person.negara}</span>
-                        </div>
-                    </div>
-                )
-            })
-        ) : (
-                <div className="center">No Posts yet</div>
-            )
-
-        const ListKota = persons.length ? (
-            persons.map(person => {
-                return (
-                    <div className="post card" key={person._id}>
-                        <div className="card-content">
-                            <span className="card-title">{person.kota}</span>
-                        </div>
-                    </div>
-                )
-            })
-        ) : (
-                <div className="center">No Posts yet</div>
-            )
-
         return (
             <DataTable plain>
                 <TableHeader>
@@ -78,16 +46,4 @@ class PersonList extends React.Component {
     }
 };
 
-const mapStateToProps = state => {
-    return {
-        data: state.data
-    }
-}
-
-const mapDispatchToProps = dispatch => {
-    return {
-        action : bindActionCreators(action, dispatch)
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PersonList);
+export default LoaderHOC(PersonList);

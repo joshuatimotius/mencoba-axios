@@ -1,3 +1,5 @@
+// CATATAN REDUX UNTUK DIPAHAMI 
+
 const redux = require('redux');
 const createStore = redux.createStore;
 

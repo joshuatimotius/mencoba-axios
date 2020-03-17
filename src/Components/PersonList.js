@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { DataTable, TableHeader, TableRow, TableColumn, TableBody, TablePagination } from 'react-md';

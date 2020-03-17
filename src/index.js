@@ -30,6 +30,4 @@ const store = createStore(rootReducer);
 
 // Actions
 
-
-
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));

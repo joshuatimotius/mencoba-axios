@@ -1,12 +1,23 @@
 import React from 'react';
 import axios from 'axios';
 import LoaderHOC from '../HOC/LoaderHOC';
+import { Button, DialogContainer } from 'react-md';
 
 class PersonInput extends React.Component {
     state = {
         negara: '',
-        kota: ''
+        kota: '',
+        visible: false
     };
+
+
+    show = () => {
+        this.setState({ visible: true })
+    }
+
+    hide = () => {
+        this.setState({ visible: false })
+    }
 
     handleNegaraChange = (value) => {
         this.setState({
@@ -40,30 +51,38 @@ class PersonInput extends React.Component {
 
     render() {
 
-        return (
-            <form onSubmit={this.handleSubmit}>
-                <div>
-                    <label>Negara</label>
-                    <input
-                        type='text'
-                        onChange={(e) => this.handleNegaraChange(e.target.value)}
-                        value={this.props.negara}
-                    />
-                </div>
-                <div>
-                    <label>Kota</label>
-                    <input
-                        type='text'
-                        onChange={(e) => this.handleKotaChange(e.target.value)}
-                        value={this.props.kota}
-                    />
-                </div>
+        const { visible } = this.state;
+        const actions = [];
+        actions.push({secondary: true, children: 'Cancel', onClick: this.hide});
+        // actions.push(<Button flat primary type='submit' onClick={this.hide} >submit</Button>)
 
-                <button type='submit'>submit</button>
-            </form>
+        return (
+            <div>
+                <Button raised onClick={this.show}>Input Form</Button>
+                <DialogContainer id='simple-action-dialog'visible={visible} onHide={this.hide} actions={actions} title='Form Input' onSubmit={this.handleSubmit}>
+                    <form>
+                        <div>
+                            <label>Negara : </label>
+                            <input
+                                type='text'
+                                onChange={(e) => this.handleNegaraChange(e.target.value)}
+                                value={this.props.negara}
+                            /> 
+                        </div>
+                        <div>
+                            <label>Kota : </label>
+                            <input
+                                type='text'
+                                onChange={(e) => this.handleKotaChange(e.target.value)}
+                                value={this.props.kota}
+                            />
+                        </div>
+                        <Button flat primary type='submit' onClick={this.hide}>submit</Button>
+                    </form>
+                </DialogContainer>
+            </div>
         )
     }
 }
-
 // connect(<global state>,)
 export default LoaderHOC(PersonInput);
